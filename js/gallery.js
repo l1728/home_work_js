@@ -66,48 +66,23 @@ const images = [
 
 
 // Вибираємо контейнер для галереї
-const galleryContainer = document.querySelector('ul.gallery');
+const galleryContainer = document.querySelector(".gallery");
+// Генеруємо розмітку для кожного елемента галереї
+galleryContainer.insertAdjacentHTML("beforeend", galleryItemsMarkup(images));
 
-
-// Генеруємо розмітку для кожного елемента галереї та додаємо до контейнера
-const galleryItemsMarkup = images
-    .map(({ preview, original, description }) => `
+function galleryItemsMarkup(arr) {
+  return arr
+  .map(({ preview, original, description }) => `
   <li class="gallery-item">
     <a class="gallery-link" href="${original}">
       <img class="gallery-image" src="${preview}" data-source="${original}" alt="${description}">
     </a>
   </li>`)
     .join('');
+};
 
-// Додаємо розмітку елементів галереї до контейнера
-galleryContainer.insertAdjacentHTML('beforeend', galleryItemsMarkup);
+galleryContainer.addEventListener("click", onImageClick);
 
-
-// Забороняє стандартну поведінку посилання (тобто завантаження зображення), коли воно клікнуте
-const galleryLinks = document.querySelectorAll('.gallery-link');
-galleryLinks.forEach(link => {  // Метод forEach використовується в даному випадку для перебору кожного посилання в колекції galleryLinks та застосовує обробник подій (функцію зворотного виклику), яка забороняє стандартну поведінку посилань при їх кліку.
-    link.addEventListener('click', function (event) {
-        event.preventDefault();
-    });
-});
-
-
-// Делегування
-// Отримаємо посилання на ul елемент галереї.
-// Додаємо обробник подій для кліка на ul елементі.
-// У функції обробника подій перевіряємо, чи було клікнуто на елемент галереї (елемент з класом "gallery-link").
-// Якщо так, ми отримуємо посилання на велике зображення з дата-атрибуту data-source та робимо потрібні дії з цим посиланням (наприклад, виводимо в консоль).
-
-// Отримуємо посилання на ul елемент галереї (вже є)
-// Додаємо обробник подій для кліка на ul елементі
-galleryContainer.addEventListener('click', function(event) {
-    // Перевіряємо, чи було клікнуто на елемент галереї (елемент з класом "gallery-link")
-    if (event.target.classList.contains("gallery-link")) {
-        // Отримуємо посилання на велике зображення з дата-атрибуту data-source
-      const largeImageSrc = event.target.dataset.sourse;
-      console.log(largeImageSrc);
-        
-        // Робимо потрібні дії з посиланням на велике зображення
-        console.log('Посилання на велике зображення:', largeImageSrc);
-    }
-});
+function onImageClick(event) {
+  console.log("lalala");
+}
