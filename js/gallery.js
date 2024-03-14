@@ -67,9 +67,9 @@ const images = [
 
 // Вибираємо контейнер для галереї
 const galleryContainer = document.querySelector(".gallery");
+
 // Генеруємо розмітку для кожного елемента галереї
 galleryContainer.insertAdjacentHTML("beforeend", galleryItemsMarkup(images));
-
 function galleryItemsMarkup(arr) {
   return arr
   .map(({ preview, original, description }) => `
@@ -81,8 +81,24 @@ function galleryItemsMarkup(arr) {
     .join('');
 };
 
+// Додаємо обробник події для кліка на ul елементі галереї
 galleryContainer.addEventListener("click", onImageClick);
-
 function onImageClick(event) {
-  console.log("lalala");
-}
+  event.preventDefault(); // Заборона стандартної поведінки
+  const galleryItem = event.target.closest(".gallery-item"); // Знаходимо найближчий елемент з класом ".gallery-item"
+  if (galleryItem) { // Перевіряємо, чи було клікнуто на елемент галереї (елемент з класом "gallery-item")
+     const largeImageSrc = galleryItem.querySelector(".gallery-image").dataset.source; // Отримуємо посилання на велике зображення з дата-атрибуту data-source
+    console.log('Посилання на велике зображення:', largeImageSrc); // Робимо потрібні дії з посиланням на велике зображення
+  
+    // Створюємо модальне вікно з великим зображенням
+    // Підключаємо бібліотеку basicLightbox
+    const instance = basicLightbox.create(` 
+    <img src="${largeImageSrc}" width="1112" height="640">
+`)
+// Показуємо модальне вікно
+instance.show();
+  
+  }
+  };
+
+
